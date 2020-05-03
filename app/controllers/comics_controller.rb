@@ -6,6 +6,7 @@ class ComicsController < ApplicationController
       if Time.now - comic.updated_at > 40000
         driver.get(comic.url)
         comic.latest_episode = driver.get_latest_episode
+        comic.updated_at = Time.now
         comic.save
       end
     end
