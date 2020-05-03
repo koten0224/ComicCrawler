@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root "main#index"
+  resources :comics
+  get "/search",      to: "comics#search_form", as: "search"
+  get "/search_json", to: "comics#search",      as: "search_json"
+  post "/send",       to: "comics#send_comic",  as: "send"
 end

@@ -10,6 +10,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= link_to "漫畫列表", comics_path %> |
+    <%= link_to "搜尋漫畫", search_path %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
