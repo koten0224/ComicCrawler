@@ -3,7 +3,7 @@ class ComicsController < ApplicationController
     @comics = Comic.all
     driver = Crawler.open_uri
     @comics.each do |comic|
-      if comic.updated_at - Time.now > 40000
+      if Time.now - comic.updated_at > 40000
         driver.get(comic.url)
         comic.latest_episode = driver.get_latest_episode
         comic.save
