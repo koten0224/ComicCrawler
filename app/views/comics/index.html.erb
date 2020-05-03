@@ -1,9 +1,7 @@
 <h1>漫畫列表</h1>
-<label for="user-email">Email:</label>
-<input id="user-email" type="text" placeholder="輸入email" value="koten0224@gmail.com">
 <table class="table">
   <tr>
-    <th>漫畫連結</th>
+    <th>漫畫</th>
     <th>上次閱讀</th>
     <th>最新進度</th>
   </tr>
@@ -11,7 +9,11 @@
     <tr>
       <td><%= link_to comic.name, comic %></td>
       <td><%= comic.readed %></td>
-      <td><%= comic.latest_episode %></td>
+        <td 
+        <% if comic.latest_episode > comic.readed %>
+          class="text-danger"
+        <% end %>
+        ><%= comic.latest_episode %></td>
       <td><button class="get-comic" comic-name="<%= comic.name %>" comic-id="<%= comic.id %>">追漫！</button></td>
     </tr>
   <% end %>

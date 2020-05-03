@@ -6,6 +6,7 @@ $(document).ready(function() {
   $("#comic_search").on("click", function(eve) {
     eve.preventDefault()
     $("#search_result tr").remove()
+    $(".loading").show()
     let input = $("#comic_name")
     let comic_name = input.val()
     input.val("")
@@ -15,6 +16,7 @@ $(document).ready(function() {
           for(let data of resp.data){
             $("#search_result").append(formatHTML(data))
             }
+            $(".loading").hide()
          })
   })
   $("#search_result").on("click", "button", function(eve) {

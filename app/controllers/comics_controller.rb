@@ -21,8 +21,7 @@ class ComicsController < ApplicationController
   end
 
   def create
-    web_id = Comic.web_id(params[:comic_link])
-    url = Comic.get_comic_url(web_id)
+    url = Comic.get_comic_url(params[:comic_link])
     name = params[:comic_name]
     driver = Crawler.open_uri
     driver.get(url)
@@ -42,13 +41,17 @@ class ComicsController < ApplicationController
   def send_comic
     email = params[:email]
     comic = Comic.find(params[:id])
-    start = (params[:start] || (comic.readed + 1))
-    stop = (params[:stop] || comic.latest_episode)
+    start = (params[:start] || (comic.readed + 1)).to_i
+    stop = (params[:stop] || comic.latest_episode).to_i
     if stop < start
       start -= 1
     end
     (start..stop).each do |episode|
       ComicMailer.send_comic(comic, episode, email).deliver_later
+    end
+    if stop > comic.readed
+      comic.readed = stop
+      comic.save
     end
     render json: {}
   end

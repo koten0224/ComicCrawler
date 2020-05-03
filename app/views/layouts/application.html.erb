@@ -10,9 +10,17 @@
   </head>
 
   <body>
-    <%= link_to "漫畫列表", comics_path %> |
-    <%= link_to "搜尋漫畫", search_path %>
+    
     <div class="container">
+      <div class="row w-50 justify-content-around">
+  
+        <div><%= link_to "漫畫列表", comics_path %></div>
+        <div><%= link_to "搜尋漫畫", search_path %></div>
+        <div>
+          <label for="user-email">Email:</label>
+          <input style="width: 300px;" id="user-email" type="text" placeholder="輸入email" value="koten0224@gmail.com">
+        </div>
+      </div>
       <%= yield %>
     </div>
   </body>

@@ -59,9 +59,35 @@ class Crawler
          .to_i
   end
 
+  def max_page
+    @page.css("#pageindex")
+          .first
+          .children
+          .last
+          .attr('value')
+          .to_i
+  end
+
+  def img_url
+    begin
+      return "https:" + @page.css("#TheImg")
+                              .first
+                              .attr("src")
+    rescue
+      sleep 5
+      return img_url
+    end
+  end
+
+  def close
+    @driver.close
+  end
+
   #instead self.new function with 2 mode
   def self.chrome
-    new :chrome, (Selenium::WebDriver.for :chrome)
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    new :chrome, (Selenium::WebDriver.for(:chrome, options: options))
   end
 
   def self.open_uri

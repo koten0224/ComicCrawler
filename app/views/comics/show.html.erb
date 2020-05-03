@@ -1,3 +1,23 @@
+<style>
+  input{
+    width: 150px
+  }
+</style>
+
 <h1><%= @comic.name %></h1>
 
  <%= link_to '原作連結', @comic.url %>
+
+<p class="mt-5">以下請輸入欲追漫範圍，輸入後按下追漫！</p>
+<div>
+  <label for="episode-start">開始集數</label>
+  <input type="text" id="episode-start" value="<%= @comic.latest_episode %>">
+
+</div>
+<div>
+  <label for="episode-ending">結束集數</label>
+  <input type="text" id="episode-ending" value="<%= @comic.latest_episode %>">
+</div>
+<div>
+  <button class="get-comic" comic-name="<%= @comic.name %>" comic-id="<%= @comic.id %>">追漫！</button>
+</div>

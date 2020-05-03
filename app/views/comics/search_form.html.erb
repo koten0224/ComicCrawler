@@ -1,4 +1,23 @@
 <h1>搜尋漫畫</h1>
+<style>
+  .loading{
+    display: flex;
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom: 0;
+  }
+  .spinner-border{
+
+  }
+</style>
+<div class="loading" style="display: none;">
+  <div class="spinner-border text-success m-auto d-flex flex-column align-items-center" style="border-width: 3rem; width: 15rem; height: 15rem;" role="status">
+  </div>
+</div>
 <div class="row">
   <div class="col-3">
     <form action="">
@@ -7,7 +26,7 @@
     </form>
   </div>
   <div class="col-9">
-    <table id="search_result"> 
+    <table id="search_result" class="table"> 
 
     </table>
   </div>
