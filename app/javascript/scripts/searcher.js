@@ -1,6 +1,3 @@
-// import { $ } from "jquery"
-import axios from "axios"
-import $ from "jquery"
 $(document).ready(function() {
   let token = $('meta[name="csrf-token"]').attr("content")
   $("#comic_search").on("click", function(eve) {

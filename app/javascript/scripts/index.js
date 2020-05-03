@@ -1,6 +1,4 @@
 import "./searcher.js"
-import axios from "axios"
-import $ from "jquery"
 
 $(document).ready(function() {
   let token = $('meta[name="csrf-token"]').attr("content")
