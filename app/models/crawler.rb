@@ -14,10 +14,20 @@ class Crawler
     case @mode
     when :chrome
       @driver.get(url)
-      @page = Nokogiri::HTML.parse(@driver.page_source)
+      
+      @page = Nokogiri::HTML(@driver.page_source.utf_8)
     when :open_uri
       @driver = open(url)
-      @page = Nokogiri::HTML(@driver)
+      def recursive_encode()
+        res = ''
+        begin
+          @driver.each { |x| res += x.utf_8 }
+        rescue
+          res += recursive_encode
+        end
+        return res
+      end
+      @page = Nokogiri::HTML(recursive_encode)
     end
     return nil
   end
@@ -26,46 +36,36 @@ class Crawler
     @page.css(pattern)
   end
 
-  def search_result_max_page
-    @page.css("#search_pager")
-          .first
-          .css("a")
-          .map{ |elem| elem.attr("href").split("=").last.to_i }
-          .max || 1
-  end
-
   def search_result
-    @page.css("table")[12]
-          .css("tr")
-          .map do |elem| 
-            a = elem.css("td")[1]
-                    .css("a")
-                    .first
-            link = $comicbus + a.attr("href") 
-            title = a.css("b font")
-                      .first
-                      .text
-            {title: title, link: link}
-          end
+    res = @page.css("table")[12].css("tr")
+    res.map do |elem| 
+      a = elem.css("td")[1]
+              .css("a")
+              .first
+      link = $comicbus + a.attr("href") 
+      title = a.css("b font")
+                .first
+                .text
+      {title: title, link: link}
+    end
   end
 
   def get_latest_episode
     @page.css("#lastvol")
          .first
          .text
-         .match(/\d+/)
-         .to_a
+         .scan(/\d+/)
          .last
          .to_i
   end
 
   def max_page
-    @page.css("#pageindex")
+    res = @page.css("#pageindex")
           .first
           .children
           .last
-          .attr('value')
-          .to_i
+    return res.attr('value').to_i if res
+    return 1
   end
 
   def img_url

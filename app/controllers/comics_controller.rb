@@ -17,7 +17,7 @@ class ComicsController < ApplicationController
   end
 
   def search
-    result = Comic.search(params[:comic_name])
+    result = Comic.search(params[:comic_name], params[:page])
     render json: result
   end
 

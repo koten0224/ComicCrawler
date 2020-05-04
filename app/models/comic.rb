@@ -29,21 +29,12 @@ class Comic < ApplicationRecord
   end
 
   
-  def self.search(comic_name)
+  def self.search(comic_name, page)
 
     driver = Crawler.open_uri
-    page_num = 1
-    driver.get(search_link(comic_name, page_num))
-    max_page = driver.search_result_max_page
-    result = []
-
-    while page_num <= max_page
-      result += driver.search_result
-      page_num += 1
-      driver.get(search_link(comic_name, page_num))
-    end
-
-    return result
+    driver.get(search_link(comic_name, page))
+    
+    return driver.search_result
   end
 
   def self.get_comic_url(url)
@@ -52,7 +43,8 @@ class Comic < ApplicationRecord
 
   private
   def self.search_link(comic_name, page_num)
-    "#{$comicbus}/member/search.aspx?k=#{comic_name.big5}&page=#{page_num}"
+    pattern = (comic_name.length > 0 ? "k=#{comic_name.big5}&" : "")
+    "#{$comicbus}/member/search.aspx?#{pattern}page=#{page_num}"
   end
   def self.web_id(url)
     url.split(/\W/)[-2].to_i

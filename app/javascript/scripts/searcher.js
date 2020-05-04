@@ -1,22 +1,21 @@
+let page = 1
+let comic_name = ""
 $(document).ready(function() {
   let token = $('meta[name="csrf-token"]').attr("content")
   $("#comic_search").on("click", function(eve) {
     eve.preventDefault()
+    page = 1
     $("#search_result tr").remove()
-    $(".loading").show()
     let input = $("#comic_name")
-    let comic_name = input.val()
+    comic_name = input.val()
     input.val("")
-    let url=`/search_json?comic_name=${comic_name}`
-    axios.get(url)
-         .then(function(resp){
-          for(let data of resp.data){
-            $("#search_result").append(formatHTML(data))
-            }
-            $(".loading").hide()
-         })
+    axiosGet()
   })
-  $("#search_result").on("click", "button", function(eve) {
+  $("#search_result").on("click", "#next-page", function(eve){
+    eve.preventDefault()
+    axiosGet()
+  })
+  $("#search_result").on("click", ".new", function(eve) {
     eve.preventDefault()
     let comic_name = $(this).attr("data-name")
     let comic_link = $(this).attr("data-link")
@@ -40,6 +39,24 @@ $(document).ready(function() {
   })
 })
 
+function axiosGet(){
+  $(".loading").show()
+  $("tr.last").remove()
+  let url=`/search_json?comic_name=${comic_name}&page=${page}`
+  axios.get(url)
+        .then(function(resp){
+        for(let data of resp.data){
+          $("#search_result").append(formatHTML(data))
+          }
+          $(".loading").hide()
+          page += 1
+          console.log(resp.data.length)
+          if(resp.data.length === 30){
+            $("#search_result").append(nextButton())
+          }
+        })
+}
+
 function formatHTML(data){
   return `
   <tr>
@@ -47,7 +64,17 @@ function formatHTML(data){
       <a href="${data.link}">${data.title}</a>
     </td>
     <td>
-      <button data-link="${data.link}" data-name="${data.title}">新增</button>
+      <button class="new" data-link="${data.link}" data-name="${data.title}">新增</button>
+    </td>
+  </tr>
+  `
+}
+
+function nextButton(){
+  return `
+  <tr class="last">
+    <td>
+      <button id="next-page">下一頁</button>
     </td>
   </tr>
   `
