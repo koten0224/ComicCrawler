@@ -36,6 +36,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+  gem 'delayed_job_active_record'
+  gem 'daemons', '~> 1.2', '>= 1.2.3'
 end
 
 group :development do

@@ -42,7 +42,7 @@ class ComicsController < ApplicationController
       start -= 1
     end
     (start..stop).each do |episode|
-      ComicMailer.send_comic(comic.id, episode, email).deliver_later
+      ComicMailerJob.perform_now(params[:id], episode, email)
     end
     if stop > comic.readed
       comic.readed = stop
