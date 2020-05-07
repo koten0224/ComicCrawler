@@ -4,10 +4,9 @@
 // that code so it'll be compiled.
 import "@fortawesome/fontawesome-free/css/all.css"
 import "bootstrap/dist/css/bootstrap.css"
-import "jquery"
-import "popper.js/dist/popper.js"
-import "bootstrap/dist/js/bootstrap.js"
-import "axios"
+// import "jquery"
+// import "bootstrap"
+// import "axios"
 
 require("@rails/ujs").start()
 // require("turbolinks").start()

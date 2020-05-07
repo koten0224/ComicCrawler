@@ -4,6 +4,7 @@ class CreateComics < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :url
       t.integer :latest_episode
+      t.integer :readed
 
       t.timestamps
     end

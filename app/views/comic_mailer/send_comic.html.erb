@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- 找到玻璃最佳主人，描述小孩說什麼電子商務增加就是也要，今天。 -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +18,7 @@
   </head>
   <body>
     <% @pages.each.with_index do |page, index| %>
-      <h1 class="text-center">第<%= index + 1 %>頁</h1>
+      <h1 class="text-center">第<%= page.number %>頁</h1>
       <img class="d-block w-100" src="<%= page.url %>" alt="">
     <% end %>
 

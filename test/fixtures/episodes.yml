@@ -1,11 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  episode: one
   number: 1
-  url: MyString
+  max_pages: 1
 
 two:
-  episode: two
   number: 1
-  url: MyString
+  max_pages: 1

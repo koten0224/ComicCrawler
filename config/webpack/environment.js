@@ -7,5 +7,6 @@ environment.plugins.prepend('Provide',
     $: 'jquery',
     jQuery: 'jquery',
     axios: 'axios',
+    bootstrap: "bootstrap",
   })
 )

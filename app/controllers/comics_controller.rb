@@ -1,11 +1,9 @@
 class ComicsController < ApplicationController
   def index
     @comics = Comic.all
-    driver = Crawler.open_uri
     @comics.each do |comic|
       if Time.now - comic.updated_at > 40000
-        driver.get(comic.url)
-        comic.latest_episode = driver.get_latest_episode
+        comic.get_latest_episode
         comic.updated_at = Time.now
         comic.save
       end
@@ -13,7 +11,6 @@ class ComicsController < ApplicationController
   end
 
   def search_form
-    @comic = Comic.new
   end
 
   def search
@@ -22,12 +19,9 @@ class ComicsController < ApplicationController
   end
 
   def create
-    url = Comic.get_comic_url(params[:comic_link])
-    name = params[:comic_name]
-    driver = Crawler.open_uri
-    driver.get(url)
-    episode = driver.get_latest_episode
-    comic = Comic.new(name: name, url: url, readed: episode, latest_episode: episode)
+    comic = Comic.new(comic_params)
+    episode = comic.get_latest_episode
+    comic.readed = episode
     if comic.save
       render json: { status: 200 }
     else
@@ -48,13 +42,20 @@ class ComicsController < ApplicationController
       start -= 1
     end
     (start..stop).each do |episode|
-      ComicMailer.send_comic(comic, episode, email).deliver_later
+      ComicMailer.send_comic(comic.id, episode, email).deliver_later
     end
     if stop > comic.readed
       comic.readed = stop
       comic.save
     end
     render json: {}
+  end
+
+  private
+  def comic_params
+    url = Comic.get_comic_url(params[:comic_link])
+    name = params[:comic_name]
+    return {name: name, url: url}
   end
 
 

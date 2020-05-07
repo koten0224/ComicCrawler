@@ -1,3 +1,3 @@
 class Page < ApplicationRecord
-  belongs_to :comic
+  belongs_to :episode
 end
