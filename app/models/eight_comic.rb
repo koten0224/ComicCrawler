@@ -2,11 +2,7 @@ require 'open-uri'
 
 class EightComic < Crawler
 
-  def search_result(comic_name, page_num)
-
-    pattern = (comic_name.length > 0 ? "k=#{comic_name.big5}&" : "")
-    url = "#{$comicbus}/member/search.aspx?#{pattern}page=#{page_num}"
-
+  def send_get_request_to_search(url)
     @driver = open(url)
     res = ''
     finish = false
@@ -18,7 +14,9 @@ class EightComic < Crawler
       end
     end
     @page = Nokogiri::HTML(res)
+  end
 
+  def css_selector_to_get_search_result
     res = @page.css("table")[12].css("tr")
     res.map do |elem| 
       a = elem.css("td")[1]
@@ -30,6 +28,17 @@ class EightComic < Crawler
                 .text
       {title: title, link: link}
     end
+  end
+
+  def search_result(comic_name, page_num)
+
+    pattern = (comic_name.length > 0 ? "k=#{comic_name.big5}" : "")
+    url = "#{$comicbus}/member/search.aspx?#{pattern}&page=#{page_num}"
+
+    send_get_request_to_search(url)
+
+    return css_selector_to_get_search_result
+    
   end
 
   def get_latest_episode

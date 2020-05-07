@@ -2,8 +2,8 @@
 
 one:
   number: 1
-  max_pages: 1
+  max_page: 1
 
 two:
   number: 1
-  max_pages: 1
+  max_page: 1

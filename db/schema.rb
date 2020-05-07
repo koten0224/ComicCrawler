@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_07_170905) do
+ActiveRecord::Schema.define(version: 2020_05_07_160313) do
 
   create_table "comics", force: :cascade do |t|
     t.string "name"
@@ -23,11 +23,11 @@ ActiveRecord::Schema.define(version: 2020_05_07_170905) do
 
   create_table "episodes", force: :cascade do |t|
     t.integer "number"
-    t.integer "max_pages"
+    t.integer "max_page"
+    t.string "url"
     t.integer "comic_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "url"
     t.index ["comic_id"], name: "index_episodes_on_comic_id"
   end
 
