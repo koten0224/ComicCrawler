@@ -55,6 +55,11 @@ class ComicsController < ApplicationController
     render json: {}
   end
 
+  def destroy
+    Comic.find(params[:id]).destroy
+    redirect_to comics_path
+  end
+
   private
   def comic_params
     url = Comic.get_comic_url(params[:comic_link])

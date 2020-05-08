@@ -1,5 +1,5 @@
 class Comic < ApplicationRecord
-  has_many :episodes
+  has_many :episodes, dependent: :destroy
 
   def get_latest_episode
     driver = EightComic.open_uri

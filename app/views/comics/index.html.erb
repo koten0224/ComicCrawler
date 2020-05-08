@@ -15,6 +15,7 @@
         <% end %>
         ><%= comic.latest_episode %></td>
       <td><button class="get-comic" comic-name="<%= comic.name %>" comic-id="<%= comic.id %>">追漫！</button></td>
+      <td><button><%= link_to '取消追蹤', comic, method: :delete, data: {confirm: "你確定要刪除 #{comic.name} ㄇ？\n連你已爬取的記錄都會一併刪除歐！"} %></button></td>
     </tr>
   <% end %>
 
