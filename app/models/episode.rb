@@ -5,7 +5,7 @@ class Episode < ApplicationRecord
   alias_method :native_pages, :pages
 
   def pages
-    result = native_pages.order(:number)
+    result = native_pages.order(:number).to_a
     len = result.length
     if len < ( max_page || 1024 )
       driver = EightComic.chrome
