@@ -10,7 +10,7 @@ class Episode < ApplicationRecord
     if len < ( max_page || 1024 )
       driver = EightComic.chrome
       start = [1, len + 1].max
-      result = (start..1024).map do |page_num|
+      (start..1024).each do |page_num|
         break if page_num > ( max_page || 1024 )
         driver.get( url + "-#{page_num}" )
         if not max_page
@@ -21,7 +21,7 @@ class Episode < ApplicationRecord
                         number: page_num
         )
         page.save
-        page
+        result << page
       end # loop
       driver.close
     end # if scope
