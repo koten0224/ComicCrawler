@@ -6,20 +6,21 @@ class Episode < ApplicationRecord
 
   def pages
     result = native_pages.order(:number)
-    if result.length < ( max_page || 1024 )
+    len = result.length
+    if len < ( max_page || 1024 )
       driver = EightComic.chrome
-      driver.get(url)
-      update_attribute( :max_page, driver.max_page )
-      result = (1..max_page).map do |page_num|
+      start = [1, len + 1].max
+      result = (start..1024).map do |page_num|
+        break if page_num > ( max_page || 1024 )
+        driver.get( url + "-#{page_num}" )
+        if not max_page
+          update_attribute( :max_page, driver.max_page )
+        end
         page = Page.new(episode_id: id,
                         url: driver.img_url, 
                         number: page_num
         )
         page.save
-        if page_num < max_page
-          next_page = url + "-#{page_num + 1}"
-          driver.get(next_page)
-        end # sub if scope
         page
       end # loop
       driver.close

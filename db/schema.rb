@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_07_193911) do
+ActiveRecord::Schema.define(version: 2020_05_08_142548) do
 
   create_table "comics", force: :cascade do |t|
     t.string "name"
@@ -53,6 +53,16 @@ ActiveRecord::Schema.define(version: 2020_05_07_193911) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["episode_id"], name: "index_pages_on_episode_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.string "name"
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_type", "item_id"], name: "index_settings_on_item_type_and_item_id"
   end
 
   add_foreign_key "episodes", "comics"
