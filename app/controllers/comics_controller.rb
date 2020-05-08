@@ -10,6 +10,10 @@ class ComicsController < ApplicationController
     end
   end
 
+  def comic_list
+    render json: Comic.all.map{|comic| { name: comic.name, url: comic.url } }
+  end
+
   def search_form
   end
 

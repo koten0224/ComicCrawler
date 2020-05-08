@@ -1,7 +1,9 @@
 let page = 1
 let comic_name = ""
+let comic_list
 $(document).ready(function() {
   let token = $('meta[name="csrf-token"]').attr("content")
+
   $("#comic_search").on("click", function(eve) {
     eve.preventDefault()
     page = 1
@@ -11,10 +13,12 @@ $(document).ready(function() {
     input.val("")
     axiosGet()
   })
+
   $("#search_result").on("click", "#next-page", function(eve){
     eve.preventDefault()
     axiosGet()
   })
+
   $("#search_result").on("click", ".new", function(eve) {
     eve.preventDefault()
     let comic_name = $(this).attr("data-name")
@@ -42,12 +46,22 @@ $(document).ready(function() {
 function axiosGet(){
   $(".loading").show()
   $("tr.last").remove()
+  if(!comic_list){
+    axios.get('/comic_list')
+         .then(function(resp){
+           if(resp.status===200){
+             comic_list = resp.data
+           }
+         })
+  }
   let url=`/search_json?comic_name=${comic_name}&page=${page}`
   axios.get(url)
         .then(function(resp){
-        for(let data of resp.data){
-          $("#search_result").append(formatHTML(data))
+
+          for(let data of resp.data){
+            $("#search_result").append(formatHTML(data))
           }
+
           $(".loading").hide()
           page += 1
           console.log(resp.data.length)
@@ -64,7 +78,7 @@ function formatHTML(data){
       <a href="${data.link}">${data.title}</a>
     </td>
     <td>
-      <button class="new" data-link="${data.link}" data-name="${data.title}">新增</button>
+      <button class="new" data-link="${data.link}" data-name="${data.title}" ${disableExistComic(data)}>新增</button>
     </td>
   </tr>
   `
@@ -78,4 +92,13 @@ function nextButton(){
     </td>
   </tr>
   `
+}
+
+function disableExistComic(data){
+  for(obj of comic_list){
+    if(obj.name===data.title){
+      return "disabled"
+    }
+  }
+  return ""
 }
