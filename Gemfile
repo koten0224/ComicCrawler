@@ -35,7 +35,7 @@ group :development, :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-  gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+  gem 'nokogiri', '~> 1.13'
   gem 'delayed_job_active_record'
   gem 'daemons', '~> 1.2', '>= 1.2.3'
 end
